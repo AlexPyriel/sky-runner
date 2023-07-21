@@ -1,0 +1,40 @@
+{
+    "name": "Player Controls",
+    "maps": [
+        {
+            "name": "New action map",
+            "id": "c7c4d5fc-1db1-472f-86b1-1df90e658400",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "391f36d2-0340-43f7-b3d1-fedd2e8932a8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e5854a36-e323-43c2-aed9-405ffe0fef99",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Desktop",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Desktop",
+            "bindingGroup": "Desktop",
+            "devices": []
+        }
+    ]
+}
