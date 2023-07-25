@@ -15,12 +15,11 @@ public class LevelSpawner : MonoBehaviour
     {
         Random.InitState(System.DateTime.Now.Millisecond);
 
-        GameObject randomTile = _levelTiles[Random.Range(0, _levelTiles.Length)];
-
         _newTileOffset = new Vector3(0, 0, _tileLength);
 
         for (int i = 0; i < _amountToSpawn; i++)
         {
+            GameObject randomTile = _levelTiles[Random.Range(0, _levelTiles.Length)];
             SpawnTile(randomTile);
         }
 
