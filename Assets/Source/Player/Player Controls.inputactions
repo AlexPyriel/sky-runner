@@ -6,9 +6,27 @@
             "id": "c7c4d5fc-1db1-472f-86b1-1df90e658400",
             "actions": [
                 {
-                    "name": "Jump",
+                    "name": "DashRight",
                     "type": "Button",
                     "id": "391f36d2-0340-43f7-b3d1-fedd2e8932a8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DashLeft",
+                    "type": "Button",
+                    "id": "825b399a-3cbf-4ee2-bc66-defe56ccddab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Grapple",
+                    "type": "Button",
+                    "id": "6c174d5b-b7b8-43db-8d5b-ede963d3cb37",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -19,11 +37,55 @@
                 {
                     "name": "",
                     "id": "e5854a36-e323-43c2-aed9-405ffe0fef99",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "Desktop",
-                    "action": "Jump",
+                    "action": "DashLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b5b4776-e77b-472b-933e-724a84a1756b",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DashLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e54e1c1-2915-462e-9a77-dc7db9717eaf",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Desktop",
+                    "action": "DashRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "054b844c-c903-4ab4-accb-ecc14a25f89d",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DashRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9884e740-dcae-4d76-8eb7-5e16c23141ab",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grapple",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
