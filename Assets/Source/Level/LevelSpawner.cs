@@ -7,31 +7,29 @@ public class LevelSpawner : MonoBehaviour
     [SerializeField] private GameObject _finishTile;
     [SerializeField] private int _amountToSpawn;
 
-    private Vector3 _currentTilePosistion = Vector3.zero;
+    private float _tileLength = 60f;
+    private Vector3 _newTileOffset;
+    private Vector3 _newTilePosition;
 
     private void Start()
     {
         Random.InitState(System.DateTime.Now.Millisecond);
 
+        GameObject randomTile = _levelTiles[Random.Range(0, _levelTiles.Length)];
+
+        _newTileOffset = new Vector3(0, 0, _tileLength);
+
         for (int i = 0; i < _amountToSpawn; i++)
         {
-            SpawnTile();
+            SpawnTile(randomTile);
         }
+
+        SpawnTile(_finishTile);
     }
 
-    private void SpawnTile()
+    private void SpawnTile(GameObject tile)
     {
-        GameObject randomTile = _levelTiles[Random.Range(0, _levelTiles.Length)];
-        GameObject tile = Instantiate(randomTile, transform.position, randomTile.transform.rotation, _container.transform);
-
-        if (tile.TryGetComponent<Collider>(out Collider component))
-        {
-            _currentTilePosistion += new Vector3(0, 0, component.bounds.size.z);
-            tile.transform.position = _currentTilePosistion;
-        }
-        else
-        {
-            throw new System.NullReferenceException("Tile prefab is missing Collider component");
-        }
+        _newTilePosition += _newTileOffset;
+        Instantiate(tile, _newTilePosition, tile.transform.rotation, _container.transform);
     }
 }
