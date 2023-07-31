@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Grapple",
+                    "name": "Swing",
                     "type": "Button",
                     "id": "6c174d5b-b7b8-43db-8d5b-ede963d3cb37",
                     "expectedControlType": "Button",
@@ -85,7 +85,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Grapple",
+                    "action": "Swing",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

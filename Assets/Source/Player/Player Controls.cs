@@ -46,7 +46,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Grapple"",
+                    ""name"": ""Swing"",
                     ""type"": ""Button"",
                     ""id"": ""6c174d5b-b7b8-43db-8d5b-ede963d3cb37"",
                     ""expectedControlType"": ""Button"",
@@ -107,7 +107,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Grapple"",
+                    ""action"": ""Swing"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -126,7 +126,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_DashRight = m_Player.FindAction("DashRight", throwIfNotFound: true);
         m_Player_DashLeft = m_Player.FindAction("DashLeft", throwIfNotFound: true);
-        m_Player_Grapple = m_Player.FindAction("Grapple", throwIfNotFound: true);
+        m_Player_Swing = m_Player.FindAction("Swing", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -190,14 +190,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_DashRight;
     private readonly InputAction m_Player_DashLeft;
-    private readonly InputAction m_Player_Grapple;
+    private readonly InputAction m_Player_Swing;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @DashRight => m_Wrapper.m_Player_DashRight;
         public InputAction @DashLeft => m_Wrapper.m_Player_DashLeft;
-        public InputAction @Grapple => m_Wrapper.m_Player_Grapple;
+        public InputAction @Swing => m_Wrapper.m_Player_Swing;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -213,9 +213,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DashLeft.started += instance.OnDashLeft;
             @DashLeft.performed += instance.OnDashLeft;
             @DashLeft.canceled += instance.OnDashLeft;
-            @Grapple.started += instance.OnGrapple;
-            @Grapple.performed += instance.OnGrapple;
-            @Grapple.canceled += instance.OnGrapple;
+            @Swing.started += instance.OnSwing;
+            @Swing.performed += instance.OnSwing;
+            @Swing.canceled += instance.OnSwing;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -226,9 +226,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @DashLeft.started -= instance.OnDashLeft;
             @DashLeft.performed -= instance.OnDashLeft;
             @DashLeft.canceled -= instance.OnDashLeft;
-            @Grapple.started -= instance.OnGrapple;
-            @Grapple.performed -= instance.OnGrapple;
-            @Grapple.canceled -= instance.OnGrapple;
+            @Swing.started -= instance.OnSwing;
+            @Swing.performed -= instance.OnSwing;
+            @Swing.canceled -= instance.OnSwing;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -259,6 +259,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnDashRight(InputAction.CallbackContext context);
         void OnDashLeft(InputAction.CallbackContext context);
-        void OnGrapple(InputAction.CallbackContext context);
+        void OnSwing(InputAction.CallbackContext context);
     }
 }
