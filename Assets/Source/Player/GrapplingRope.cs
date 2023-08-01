@@ -17,13 +17,13 @@ public class GrapplingRope : MonoBehaviour
     public AnimationCurve affectCurve;
 
     private Spring spring; // a custom script that returns the values needed for the animation
-    private LineRenderer lr;
+    [SerializeField] private LineRenderer lr;
     private Vector3 currentGrapplePosition;
 
     private void Awake()
     {
         // get references
-        lr = GetComponent<LineRenderer>();
+        // lr = GetComponent<LineRenderer>();
         spring = new Spring();
         spring.SetTarget(0);
     }

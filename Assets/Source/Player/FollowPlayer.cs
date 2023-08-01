@@ -10,7 +10,7 @@ public class FollowPlayer : MonoBehaviour
 
     private void Start()
     {
-        _offset = transform.position - _player.position;
+        _offset = Vector3.Scale(transform.position - _player.position, new Vector3(0, 1, 1));
     }
 
     private void LateUpdate()
