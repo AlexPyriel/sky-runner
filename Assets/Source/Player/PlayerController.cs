@@ -11,12 +11,12 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float _horizontalThrustForce;
     [Header("References")]
-    public Transform gunTip, cam, player;
+    public Transform gunTip, player;
     public LayerMask whatIsGrappleableRight;
     public LayerMask whatIsGrappleableLeft;
 
     [Header("Swinging")]
-    private float maxSwingDistance = 25;
+    [SerializeField] private float maxSwingDistance = 25;
     private Vector3 _grapplePoint;
     private SpringJoint joint;
     private bool grappling;
@@ -70,12 +70,12 @@ public class PlayerController : MonoBehaviour
 
     private void StartSwing(InputAction.CallbackContext context)
     {
-        Debug.Log("Started");
-        grappling = true;
         RaycastHit sphereCastHit;
 
-        if (Physics.SphereCast(cam.position, _predictionSphereRadius, cam.forward, out sphereCastHit, maxSwingDistance, _whatIsGrappleable))
+        if (Physics.SphereCast(transform.position, _predictionSphereRadius, Vector3.forward, out sphereCastHit, maxSwingDistance, _whatIsGrappleable))
         {
+            Debug.Log("Started");
+            grappling = true;
             _grapplePoint = sphereCastHit.point;
             joint = player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
@@ -98,14 +98,17 @@ public class PlayerController : MonoBehaviour
 
     private void StopSwing(InputAction.CallbackContext context)
     {
-        Debug.Log("Stopped");
-        grappling = false;
-        Destroy(joint);
+        if (grappling)
+        {
+            Debug.Log("Stopped");
+            grappling = false;
+            Destroy(joint);
 
-        _rigidbody.velocity = Vector3.Scale(_rigidbody.velocity, new Vector3(0, 0.6f, 1));
-        _rigidbody.AddForce(new Vector3(0, 0, _horizontalThrustForce), ForceMode.VelocityChange);
+            _rigidbody.velocity = Vector3.Scale(_rigidbody.velocity, new Vector3(0, 1, 1));
 
-
+            if (_rigidbody.velocity.z + _horizontalThrustForce < _maxVelocity)
+                _rigidbody.AddForce(new Vector3(0, 0, _horizontalThrustForce), ForceMode.VelocityChange);
+        }
     }
 
     public Vector3 GetGrapplePoint()
@@ -117,6 +120,8 @@ public class PlayerController : MonoBehaviour
     {
         return grappling;
     }
+
+
 
     private void Update()
     {

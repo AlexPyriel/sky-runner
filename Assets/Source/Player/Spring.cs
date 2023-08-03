@@ -1,69 +1,50 @@
 using UnityEngine;
 
-
-// Dave MovementLab - Spring
-///
-// Content:
-/// - calculating the values used for the GrapplingRope animation
-/// 
-// I learned how to create this script by following along with a YouTube tutorial
-// Credits: https://youtu.be/8nENcDnxeVE
-
-
 public class Spring
 {
-    // values explained in the GrapplingRope_MLab script
-    private float strength;
-    private float damper;
-    private float target;
-    private float velocity;
-    private float value;
+    private float _strength;
+    private float _damper;
+    private float _target;
+    private float _velocity;
+    private float _value;
 
     public void Update(float deltaTime)
     {
-        // calculate the animation values using some formulas I don't understand :D
-        var direction = target - value >= 0 ? 1f : -1f;
-        var force = Mathf.Abs(target - value) * strength;
-        velocity += (force * direction - velocity * damper) * deltaTime;
-        value += velocity * deltaTime;
+        var direction = _target - _value >= 0 ? 1f : -1f;
+        var force = Mathf.Abs(_target - _value) * _strength;
+        _velocity += (force * direction - _velocity * _damper) * deltaTime;
+        _value += _velocity * deltaTime;
     }
 
     public void Reset()
     {
-        // reset values
-        velocity = 0f;
-        value = 0f;
+        _velocity = 0f;
+        _value = 0f;
     }
 
-    /// here you'll find all functions used to set the variables of the simulation
     #region Setters
-
-    public void SetValue(float value)
-    {
-        this.value = value;
-    }
 
     public void SetTarget(float target)
     {
-        this.target = target;
+        _target = target;
     }
 
     public void SetDamper(float damper)
     {
-        this.damper = damper;
+        _damper = damper;
     }
 
     public void SetStrength(float strength)
     {
-        this.strength = strength;
+        _strength = strength;
     }
 
     public void SetVelocity(float velocity)
     {
-        this.velocity = velocity;
+        _velocity = velocity;
     }
 
-    public float Value => value;
+    public float Value => _value;
 
     #endregion
 }

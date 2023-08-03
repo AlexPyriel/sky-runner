@@ -7,7 +7,7 @@ public class LevelSpawner : MonoBehaviour
     [SerializeField] private GameObject _finishTile;
     [SerializeField] private int _amountToSpawn;
 
-    private float _tileLength = 60f;
+    private float _tileLength = 30f;
     private Vector3 _newTileOffset;
     private Vector3 _newTilePosition;
 
