@@ -5,37 +5,19 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float _maxVelocity;
-    [SerializeField] private float _maxCurrentVelocity;
-    [SerializeField] private float _currentVelocity;
-
-    [SerializeField] private float _horizontalThrustForce;
-    [Header("References")]
-    public Transform gunTip, player;
-    public LayerMask whatIsGrappleableRight;
-    public LayerMask whatIsGrappleableLeft;
-
-    [Header("Swinging")]
-    [SerializeField] private float maxSwingDistance = 25;
-    private Vector3 _grapplePoint;
-    private SpringJoint joint;
-    private bool grappling;
-
+    [SerializeField] private LayerMask _grappleableRight;
+    [SerializeField] private LayerMask _grappleableLeft;
+    [SerializeField] private GrapplingGun _grapplingGun;
     private PlayerControls _playerControls;
-    [SerializeField] private float _predictionSphereRadius;
-    [SerializeField] private float _spring = 4.5f;
-    [SerializeField] private float _damper = 7f;
-    [SerializeField] private float _massScale = 4.5f;
-    [SerializeField] private Rigidbody _rigidbody;
 
     private LayerMask _whatIsGrappleable;
-    private float _leftLine = -3f;
-    private float _rightLine = 3f;
+    private float _leftRoutePosition = -3f;
+    private float _rightRoutePosition = 3f;
 
     private void Awake()
     {
         _playerControls = new PlayerControls();
-        _whatIsGrappleable = whatIsGrappleableRight;
+        _whatIsGrappleable = _grappleableRight;
     }
 
     private void OnEnable()
@@ -43,7 +25,7 @@ public class PlayerController : MonoBehaviour
         _playerControls.Enable();
         _playerControls.Player.DashRight.performed += TryDashRight;
         _playerControls.Player.DashLeft.performed += TryDasheLeft;
-        _playerControls.Player.Swing.started += StartSwing;
+        _playerControls.Player.Swing.started += TrySwing;
         _playerControls.Player.Swing.canceled += StopSwing;
     }
 
@@ -51,88 +33,41 @@ public class PlayerController : MonoBehaviour
     {
         _playerControls.Player.DashRight.performed -= TryDashRight;
         _playerControls.Player.DashLeft.performed -= TryDasheLeft;
-        _playerControls.Player.Swing.started -= StartSwing;
+        _playerControls.Player.Swing.started -= TrySwing;
         _playerControls.Player.Swing.canceled -= StopSwing;
         _playerControls.Disable();
     }
 
     private void TryDashRight(InputAction.CallbackContext context)
     {
-        transform.position = new Vector3(_rightLine, transform.position.y, transform.position.z);
-        _whatIsGrappleable = whatIsGrappleableRight;
+        if (_grapplingGun.IsAttached == false)
+        {
+            transform.position = new Vector3(_rightRoutePosition, transform.position.y, transform.position.z);
+            _whatIsGrappleable = _grappleableRight;
+        }
     }
 
     private void TryDasheLeft(InputAction.CallbackContext context)
     {
-        transform.position = new Vector3(_leftLine, transform.position.y, transform.position.z);
-        _whatIsGrappleable = whatIsGrappleableLeft;
+        if (_grapplingGun.IsAttached == false)
+        {
+            transform.position = new Vector3(_leftRoutePosition, transform.position.y, transform.position.z);
+            _whatIsGrappleable = _grappleableLeft;
+        }
     }
 
-    private void StartSwing(InputAction.CallbackContext context)
+    private void TrySwing(InputAction.CallbackContext context)
     {
-        RaycastHit sphereCastHit;
-
-        if (Physics.SphereCast(transform.position, _predictionSphereRadius, Vector3.forward, out sphereCastHit, maxSwingDistance, _whatIsGrappleable))
-        {
-            Debug.Log("Started");
-            grappling = true;
-            _grapplePoint = sphereCastHit.point;
-            joint = player.gameObject.AddComponent<SpringJoint>();
-            joint.autoConfigureConnectedAnchor = false;
-            joint.connectedAnchor = _grapplePoint;
-
-            float distanceFromPoint = Vector3.Distance(player.position, _grapplePoint);
-
-            // the distance grapple will try to keep from grapple point.
-            joint.maxDistance = distanceFromPoint * 0.8f;
-            joint.minDistance = distanceFromPoint * 0.25f;
-
-            // customize values as you like
-            joint.spring = _spring;
-            joint.damper = _damper;
-            joint.massScale = _massScale;
-
-            sphereCastHit.transform.GetComponent<MeshRenderer>().material.color = Color.red;
-        }
+        _grapplingGun.StartSwing(_whatIsGrappleable);
     }
 
     private void StopSwing(InputAction.CallbackContext context)
     {
-        if (grappling)
-        {
-            Debug.Log("Stopped");
-            grappling = false;
-            Destroy(joint);
-
-            _rigidbody.velocity = Vector3.Scale(_rigidbody.velocity, new Vector3(0, 1, 1));
-
-            if (_rigidbody.velocity.z + _horizontalThrustForce < _maxVelocity)
-                _rigidbody.AddForce(new Vector3(0, 0, _horizontalThrustForce), ForceMode.VelocityChange);
-        }
+        _grapplingGun.StopSwing();
     }
-
-    public Vector3 GetGrapplePoint()
-    {
-        return _grapplePoint;
-    }
-
-    public bool IsGrappling()
-    {
-        return grappling;
-    }
-
-
 
     private void Update()
     {
-        _currentVelocity = _rigidbody.velocity.z;
-
-        if (_rigidbody.velocity.z > _maxCurrentVelocity)
-            _maxCurrentVelocity = _rigidbody.velocity.z;
-
-
-        if (_rigidbody.velocity.z > _maxVelocity)
-            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, _maxVelocity);
 
     }
 }

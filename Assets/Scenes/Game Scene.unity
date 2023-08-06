@@ -560,6 +560,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 963194228}
     - target: {fileID: 103393626365144214, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+      propertyPath: _grapplingGun
+      value: 
+      objectReference: {fileID: 6571395892856488942}
+    - target: {fileID: 103393626365144214, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
       propertyPath: maxSwingDistance
       value: 20
       objectReference: {fileID: 0}
@@ -572,8 +576,16 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 103393626365144214, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+      propertyPath: _grappleableLeft.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 103393626365144214, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
       propertyPath: _predictionSphereRadius
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 103393626365144214, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+      propertyPath: _grappleableRight.m_Bits
+      value: 256
       objectReference: {fileID: 0}
     - target: {fileID: 2515918967413616269, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
       propertyPath: m_Name
@@ -611,6 +623,10 @@ PrefabInstance:
       propertyPath: waveHeight
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5847776236321791183, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+      propertyPath: _grapplingGun
+      value: 
+      objectReference: {fileID: 6571395892856488942}
     - target: {fileID: 5847776236321791183, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
       propertyPath: _lineRenderer
       value: 
@@ -782,4 +798,44 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2638401284653305929, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1900049854}
+    - targetCorrespondingSourceObject: {fileID: 2515918967413616269, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6571395892856488942}
   m_SourcePrefab: {fileID: 100100000, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+--- !u!1 &6571395892856488941 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2515918967413616269, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+  m_PrefabInstance: {fileID: 6571395892856488940}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6571395892856488942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6571395892856488941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d9482b51d7940e78b474ffa416ad14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _gunTip: {fileID: 6571395892856488943}
+  _player: {fileID: 321713577}
+  _horizontalThrustForce: 5
+  _maxVelocity: 25
+  maxSwingDistance: 20
+  _rigidbody: {fileID: 6571395892856488944}
+  _sphereRadius: 12
+  _spring: 4.5
+  _damper: 7
+  _massScale: 4.5
+--- !u!4 &6571395892856488943 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8123435404124405633, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+  m_PrefabInstance: {fileID: 6571395892856488940}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &6571395892856488944 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 4382141598460411421, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+  m_PrefabInstance: {fileID: 6571395892856488940}
+  m_PrefabAsset: {fileID: 0}

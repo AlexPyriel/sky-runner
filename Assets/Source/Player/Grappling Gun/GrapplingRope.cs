@@ -3,7 +3,7 @@ using UnityEngine;
 public class GrapplingRope : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private PlayerController _playerController;
+    [SerializeField] private GrapplingGun _grapplingGun;
     [SerializeField] private LineRenderer _lineRenderer;
 
     [Header("Settings")]
@@ -32,9 +32,9 @@ public class GrapplingRope : MonoBehaviour
     void DrawRope()
     {
         // if not grappling, don't draw rope
-        if (!_playerController.IsGrappling())
+        if (!_grapplingGun.IsAttached)
         {
-            currentGrapplePosition = _playerController.gunTip.position;
+            currentGrapplePosition = _grapplingGun.GunTip.position;
 
             // reset the simulation
             spring.Reset();
@@ -60,8 +60,8 @@ public class GrapplingRope : MonoBehaviour
         spring.SetStrength(_strength);
         spring.Update(Time.deltaTime);
 
-        Vector3 grapplePoint = _playerController.GetGrapplePoint();
-        Vector3 gunTipPosition = _playerController.gunTip.position;
+        Vector3 grapplePoint = _grapplingGun.SwingPoint;
+        Vector3 gunTipPosition = _grapplingGun.GunTip.position;
 
         // find the upwards direction relative to the rope
         Vector3 up = Quaternion.LookRotation((grapplePoint - gunTipPosition).normalized) * Vector3.up;
