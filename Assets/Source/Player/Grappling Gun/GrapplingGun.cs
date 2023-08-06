@@ -17,13 +17,11 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float maxSwingDistance = 25;
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private float _sphereRadius;
-    // [SerializeField] private LayerMask _whatIsGrappleable;
 
     private bool _isAttached;
     private Vector3 _swingPoint;
 
     public bool IsAttached => _isAttached;
-
     public Vector3 SwingPoint => _swingPoint;
 
 

@@ -5,19 +5,23 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private Transform _player;
     [SerializeField] private LayerMask _grappleableRight;
     [SerializeField] private LayerMask _grappleableLeft;
     [SerializeField] private GrapplingGun _grapplingGun;
     private PlayerControls _playerControls;
 
     private LayerMask _whatIsGrappleable;
+    private float _targetPosition;
     private float _leftRoutePosition = -3f;
     private float _rightRoutePosition = 3f;
+    private float _dashSpeed = 40f;
 
     private void Awake()
     {
         _playerControls = new PlayerControls();
         _whatIsGrappleable = _grappleableRight;
+        _targetPosition = _rightRoutePosition;
     }
 
     private void OnEnable()
@@ -42,7 +46,8 @@ public class PlayerController : MonoBehaviour
     {
         if (_grapplingGun.IsAttached == false)
         {
-            transform.position = new Vector3(_rightRoutePosition, transform.position.y, transform.position.z);
+            // transform.position = new Vector3(_rightRoutePosition, transform.position.y, transform.position.z);
+            _targetPosition = _rightRoutePosition;
             _whatIsGrappleable = _grappleableRight;
         }
     }
@@ -51,7 +56,8 @@ public class PlayerController : MonoBehaviour
     {
         if (_grapplingGun.IsAttached == false)
         {
-            transform.position = new Vector3(_leftRoutePosition, transform.position.y, transform.position.z);
+            // transform.position = new Vector3(_leftRoutePosition, transform.position.y, transform.position.z);
+            _targetPosition = _leftRoutePosition;
             _whatIsGrappleable = _grappleableLeft;
         }
     }
@@ -66,8 +72,16 @@ public class PlayerController : MonoBehaviour
         _grapplingGun.StopSwing();
     }
 
+    private void Dash()
+    {
+        if (_player.position.x != _targetPosition)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(_targetPosition, transform.position.y, transform.position.z), _dashSpeed * Time.deltaTime);
+        }
+    }
+
     private void Update()
     {
-
+        Dash();
     }
 }

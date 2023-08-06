@@ -560,6 +560,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 963194228}
     - target: {fileID: 103393626365144214, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+      propertyPath: _player
+      value: 
+      objectReference: {fileID: 321713577}
+    - target: {fileID: 103393626365144214, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
       propertyPath: _grapplingGun
       value: 
       objectReference: {fileID: 6571395892856488942}
@@ -606,6 +610,10 @@ PrefabInstance:
     - target: {fileID: 4382141598460411421, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
       propertyPath: m_UseGravity
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4382141598460411421, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5847776236321791183, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
       propertyPath: lr
