@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,11 +19,17 @@ public class PlayerController : MonoBehaviour
     private float _rightRoutePosition = 3f;
     private float _dashSpeed = 40f;
 
+    public event Action<LayerMask> RouteChanged;
+
     private void Awake()
     {
         _playerControls = new PlayerControls();
-        _whatIsGrappleable = _grappleableRight;
+
+        //To be refactored
         _targetPosition = _rightRoutePosition;
+        _whatIsGrappleable = _grappleableRight;
+        RouteChanged?.Invoke(_whatIsGrappleable);
+        //To be refactored
     }
 
     private void OnEnable()
@@ -49,6 +57,7 @@ public class PlayerController : MonoBehaviour
             // transform.position = new Vector3(_rightRoutePosition, transform.position.y, transform.position.z);
             _targetPosition = _rightRoutePosition;
             _whatIsGrappleable = _grappleableRight;
+            RouteChanged?.Invoke(_whatIsGrappleable);
         }
     }
 
@@ -59,12 +68,13 @@ public class PlayerController : MonoBehaviour
             // transform.position = new Vector3(_leftRoutePosition, transform.position.y, transform.position.z);
             _targetPosition = _leftRoutePosition;
             _whatIsGrappleable = _grappleableLeft;
+            RouteChanged?.Invoke(_whatIsGrappleable);
         }
     }
 
     private void TrySwing(InputAction.CallbackContext context)
     {
-        _grapplingGun.StartSwing(_whatIsGrappleable);
+        _grapplingGun.StartSwing();
     }
 
     private void StopSwing(InputAction.CallbackContext context)
@@ -79,6 +89,8 @@ public class PlayerController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(_targetPosition, transform.position.y, transform.position.z), _dashSpeed * Time.deltaTime);
         }
     }
+
+
 
     private void Update()
     {

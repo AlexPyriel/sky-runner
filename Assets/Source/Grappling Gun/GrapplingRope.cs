@@ -60,7 +60,7 @@ public class GrapplingRope : MonoBehaviour
         _spring.SetStrength(_strength);
         _spring.Update(Time.deltaTime);
 
-        Vector3 grapplePoint = _grapplingGun.SwingPoint;
+        Vector3 grapplePoint = _grapplingGun.AttachPoint;
         Vector3 gunTipPosition = _grapplingGun.GunTip.position;
 
         // find the upwards direction relative to the rope

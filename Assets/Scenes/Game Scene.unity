@@ -510,43 +510,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66debf409d5f74813b3bc14e6723211d, type: 3}
---- !u!1 &1900049850 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2638401284653305929, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
-  m_PrefabInstance: {fileID: 6571395892856488940}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1900049853 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 103393626365144214, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
   m_PrefabInstance: {fileID: 6571395892856488940}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900049850}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cc56ad3b4d674a68a7b0a787402f350, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1900049854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1900049850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f2c94eb8c9c04dcebb6cd76dbf73c42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _sphereRadius: 12
-  _curerntHitDistance: 0
-  _maxDistance: 20
-  _direction: {x: 0, y: 0, z: 0}
-  _origin: {x: 0, y: 0, z: 0}
-  _layerMask:
-    serializedVersion: 2
-    m_Bits: 768
-  _currentHitObject: {fileID: 0}
 --- !u!1001 &6571395892856488940
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1119,12 +1093,12 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2638401284653305929, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1900049854}
     - targetCorrespondingSourceObject: {fileID: 2515918967413616269, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6571395892856488942}
+    - targetCorrespondingSourceObject: {fileID: 2515918967413616269, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6571395892856488948}
   m_SourcePrefab: {fileID: 100100000, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
 --- !u!1 &6571395892856488941 stripped
 GameObject:
@@ -1145,11 +1119,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gunTip: {fileID: 6571395892856488943}
   _player: {fileID: 321713577}
+  _sensor: {fileID: 6571395892856488948}
   _horizontalThrustForce: 5
   _maxVelocity: 25
   maxSwingDistance: 20
   _rigidbody: {fileID: 6571395892856488944}
-  _sphereRadius: 12
   _spring: 4.5
   _damper: 7
   _massScale: 4.5
@@ -1163,3 +1137,24 @@ Rigidbody:
   m_CorrespondingSourceObject: {fileID: 4382141598460411421, guid: a8d71947f3cf84e3b984d5dd11b2ff4c, type: 3}
   m_PrefabInstance: {fileID: 6571395892856488940}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6571395892856488948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6571395892856488941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f2c94eb8c9c04dcebb6cd76dbf73c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerController: {fileID: 1900049853}
+  _sphereRadius: 12
+  _curerntHitDistance: 0
+  _maxDistance: 20
+  _direction: {x: 0, y: 0, z: 0}
+  _origin: {x: 0, y: 0, z: 0}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 768

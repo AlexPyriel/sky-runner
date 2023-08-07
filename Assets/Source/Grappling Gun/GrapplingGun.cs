@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GrapplingGun : MonoBehaviour
@@ -7,22 +9,25 @@ public class GrapplingGun : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform _gunTip;
     [SerializeField] private Transform _player;
-    // [SerializeField] private PlayerController _playerController;
+    [SerializeField] private AttachPointSensor _sensor;
 
     public Transform GunTip => _gunTip;
 
-    [Header("Swinging")]
+    [Header("Add Force on stop swing")]
     [SerializeField] private float _horizontalThrustForce;
     [SerializeField] private float _maxVelocity;
     [SerializeField] private float maxSwingDistance = 25;
     [SerializeField] private Rigidbody _rigidbody;
-    [SerializeField] private float _sphereRadius;
 
+    // [SerializeField] private float _sphereRadius;
+
+    // private LayerMask _whatIsGrappleable;
     private bool _isAttached;
-    private Vector3 _swingPoint;
+    private bool _attachPointDetected;
+    private Vector3 _attachPoint;
 
     public bool IsAttached => _isAttached;
-    public Vector3 SwingPoint => _swingPoint;
+    public Vector3 AttachPoint => _attachPoint;
 
 
     [Header("Joint Settings")]
@@ -32,20 +37,45 @@ public class GrapplingGun : MonoBehaviour
 
     private SpringJoint joint;
 
-    public void StartSwing(LayerMask whatIsGrappleable)
+    private void OnEnable()
     {
-        RaycastHit sphereCastHit;
+        _sensor.AttachPointDetected += OnAttachPointDetected;
+        _sensor.AttachPointLost += OnAttachPointLost;
+    }
 
-        if (Physics.SphereCast(transform.position, _sphereRadius, Vector3.forward, out sphereCastHit, maxSwingDistance, whatIsGrappleable))
+    private void OnDisable()
+    {
+        _sensor.AttachPointDetected -= OnAttachPointDetected;
+        _sensor.AttachPointLost -= OnAttachPointLost;
+    }
+
+
+    private void OnAttachPointDetected(Vector3 attachpoint)
+    {
+        if (_isAttached == false)
+        {
+            _attachPointDetected = true;
+            _attachPoint = attachpoint;
+        }
+    }
+
+    private void OnAttachPointLost()
+    {
+        if (_isAttached == false)
+            _attachPointDetected = false;
+    }
+
+    public void StartSwing()
+    {
+        if (_attachPointDetected)
         {
             Debug.Log("Started");
             _isAttached = true;
-            _swingPoint = sphereCastHit.point;
             joint = _player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
-            joint.connectedAnchor = _swingPoint;
+            joint.connectedAnchor = _attachPoint;
 
-            float distanceFromPoint = Vector3.Distance(_player.position, _swingPoint);
+            float distanceFromPoint = Vector3.Distance(_player.position, _attachPoint);
 
             // the distance grapple will try to keep from grapple point.
             joint.maxDistance = distanceFromPoint * 0.8f;
@@ -55,8 +85,6 @@ public class GrapplingGun : MonoBehaviour
             joint.spring = _spring;
             joint.damper = _damper;
             joint.massScale = _massScale;
-
-            sphereCastHit.transform.GetComponent<MeshRenderer>().material.color = Color.red;
         }
     }
 
@@ -73,17 +101,5 @@ public class GrapplingGun : MonoBehaviour
             if (_rigidbody.velocity.z + _horizontalThrustForce < _maxVelocity)
                 _rigidbody.AddForce(new Vector3(0, 0, _horizontalThrustForce), ForceMode.VelocityChange);
         }
-    }
-
-
-
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-
     }
 }
