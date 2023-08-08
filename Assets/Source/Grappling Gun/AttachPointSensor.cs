@@ -18,6 +18,7 @@ public class AttachPointSensor : MonoBehaviour
     [SerializeField] private Vector3 _origin;
 
     private LayerMask _layerMask;
+    private GameObject _previousHitObject;
     private GameObject _currentHitObject;
     private Vector3 _currentAttachPoint;
 
@@ -39,16 +40,21 @@ public class AttachPointSensor : MonoBehaviour
     private void OnRouteChanged(LayerMask layerMask)
     {
         _layerMask = layerMask;
+        Debug.Log("Route changed");
     }
 
     private void ChecWhatIsGrappleable()
     {
         _origin = transform.position;
         _direction = Vector3.forward;
+        _previousHitObject = _currentHitObject;
 
         if (Physics.SphereCast(_origin, _sphereRadius, _direction, out RaycastHit hit, _maxDistance, _layerMask, QueryTriggerInteraction.UseGlobal))
         {
             _currentHitObject = hit.transform.gameObject;
+            if (_previousHitObject == _currentHitObject) return;
+            Debug.Log("If");
+
             _currentAttachPoint = hit.point;
             _curerntHitDistance = hit.distance;
 
@@ -61,6 +67,7 @@ public class AttachPointSensor : MonoBehaviour
         }
         else
         {
+            Debug.Log("else");
             if (_currentHitObject != null)
             {
                 if (_currentHitObject.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))

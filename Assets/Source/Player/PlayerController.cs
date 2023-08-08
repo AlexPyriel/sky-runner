@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour
         //To be refactored
         _targetPosition = _rightRoutePosition;
         _whatIsGrappleable = _grappleableRight;
-        RouteChanged?.Invoke(_whatIsGrappleable);
         //To be refactored
     }
 
@@ -90,7 +89,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        //To be refactored
 
+        RouteChanged?.Invoke(_whatIsGrappleable);
+        //To be refactored
+
+    }
 
     private void Update()
     {
