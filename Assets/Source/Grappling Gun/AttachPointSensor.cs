@@ -1,30 +1,18 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AttachPointSensor : MonoBehaviour
 {
     [SerializeField] private PlayerController _playerController;
 
-    #region Spherecast
+    private Game.Routes _targetRoute;
 
-    [Header("SphereCast Test")]
-    [SerializeField] private float _sphereRadius;
-    [SerializeField] private float _curerntHitDistance;
-    [SerializeField] private float _maxDistance;
-    [SerializeField] private Vector3 _direction;
-    [SerializeField] private Vector3 _origin;
+    private Vector3 _leftPoint;
+    private Vector3 _rightPoint;
 
-    private LayerMask _layerMask;
-    private GameObject _previousHitObject;
-    private GameObject _currentHitObject;
-    private Vector3 _currentAttachPoint;
+    public Vector3 CurrentAttachPoint => _targetRoute == Game.Routes.Left ? _leftPoint : _rightPoint;
 
-    #endregion
-
-    public event Action<Vector3> AttachPointDetected;
+    public event Action AttachPointDetected;
     public event Action AttachPointLost;
 
     private void OnEnable()
@@ -37,61 +25,49 @@ public class AttachPointSensor : MonoBehaviour
         _playerController.RouteChanged -= OnRouteChanged;
     }
 
-    private void OnRouteChanged(LayerMask layerMask)
+    private void OnRouteChanged(Game.Routes route)
     {
-        _layerMask = layerMask;
-        Debug.Log("Route changed");
+        _targetRoute = route;
+        Debug.Log($"Route changed to {route}");
     }
 
-    private void ChecWhatIsGrappleable()
+    private void OnTriggerEnter(Collider other)
     {
-        _origin = transform.position;
-        _direction = Vector3.forward;
-        _previousHitObject = _currentHitObject;
 
-        if (Physics.SphereCast(_origin, _sphereRadius, _direction, out RaycastHit hit, _maxDistance, _layerMask, QueryTriggerInteraction.UseGlobal))
+        if (other.TryGetComponent<AttachPoint>(out AttachPoint point))
         {
-            _currentHitObject = hit.transform.gameObject;
-            if (_previousHitObject == _currentHitObject) return;
-            Debug.Log("If");
+            Debug.Log("enter");
+            point.Enable();
 
-            _currentAttachPoint = hit.point;
-            _curerntHitDistance = hit.distance;
-
-            AttachPointDetected?.Invoke(_currentAttachPoint);
-
-            if (_currentHitObject.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
+            if (point.Route == Game.Routes.Left)
             {
-                renderer.material.color = Color.green;
+                _leftPoint = point.transform.position;
+                Debug.Log($"Left point {_leftPoint}");
+            }
+            else if (point.Route == Game.Routes.Right)
+            {
+                _rightPoint = point.transform.position;
+                Debug.Log($"Right point {_rightPoint}");
             }
         }
-        else
+
+        if (_leftPoint != null || _rightPoint != null)
+            AttachPointDetected?.Invoke();
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.TryGetComponent<AttachPoint>(out AttachPoint point))
         {
-            Debug.Log("else");
-            if (_currentHitObject != null)
-            {
-                if (_currentHitObject.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
-                {
-                    renderer.material.color = Color.red;
-                }
-            }
-
-            _currentHitObject = null;
-            _curerntHitDistance = _maxDistance;
-
+            Debug.Log("Lost point");
+            point.Disable();
             AttachPointLost?.Invoke();
         }
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Debug.DrawLine(_origin, _origin + _direction * _curerntHitDistance);
-        Gizmos.DrawWireSphere(_origin + _direction * _curerntHitDistance, _sphereRadius);
-    }
-
-    private void Update()
-    {
-        ChecWhatIsGrappleable();
-    }
+    // public Vector3 GetCurrentAttachPoint()
+    // {
+    //     if (_leftPoint != null || _rightPoint != null)
+    //         return _targetRoute == Game.Routes.Left ? _leftPoint : _rightPoint;
+    // }
 }

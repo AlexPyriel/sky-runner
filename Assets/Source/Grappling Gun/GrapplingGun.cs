@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GrapplingGun : MonoBehaviour
@@ -16,12 +12,8 @@ public class GrapplingGun : MonoBehaviour
     [Header("Add Force on stop swing")]
     [SerializeField] private float _horizontalThrustForce;
     [SerializeField] private float _maxVelocity;
-    [SerializeField] private float maxSwingDistance = 25;
     [SerializeField] private Rigidbody _rigidbody;
 
-    // [SerializeField] private float _sphereRadius;
-
-    // private LayerMask _whatIsGrappleable;
     private bool _isAttached;
     private bool _attachPointDetected;
     private Vector3 _attachPoint;
@@ -49,28 +41,32 @@ public class GrapplingGun : MonoBehaviour
         _sensor.AttachPointLost -= OnAttachPointLost;
     }
 
-
-    private void OnAttachPointDetected(Vector3 attachpoint)
+    // выяснить сколько раз срабатывают события в пистолете
+    private void OnAttachPointDetected()
     {
         if (_isAttached == false)
         {
             _attachPointDetected = true;
-            _attachPoint = attachpoint;
         }
     }
 
     private void OnAttachPointLost()
     {
         if (_isAttached == false)
+        {
             _attachPointDetected = false;
+        }
     }
 
     public void StartSwing()
     {
         if (_attachPointDetected)
         {
-            Debug.Log("Started");
             _isAttached = true;
+
+            _attachPoint = _sensor.CurrentAttachPoint;
+            Debug.Log($"Started attaching to {_attachPoint}");
+
             joint = _player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
             joint.connectedAnchor = _attachPoint;
@@ -92,7 +88,7 @@ public class GrapplingGun : MonoBehaviour
     {
         if (_isAttached)
         {
-            Debug.Log("Stopped");
+            // Debug.Log("Stopped");
             _isAttached = false;
             Destroy(joint);
 

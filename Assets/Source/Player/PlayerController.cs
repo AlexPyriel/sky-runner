@@ -1,33 +1,26 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform _player;
-    [SerializeField] private LayerMask _grappleableRight;
-    [SerializeField] private LayerMask _grappleableLeft;
     [SerializeField] private GrapplingGun _grapplingGun;
     private PlayerControls _playerControls;
 
-    private LayerMask _whatIsGrappleable;
-    private float _targetPosition;
+    private float _targetRoutePosition;
     private float _leftRoutePosition = -3f;
     private float _rightRoutePosition = 3f;
     private float _dashSpeed = 40f;
 
-    public event Action<LayerMask> RouteChanged;
+    public event Action<Game.Routes> RouteChanged;
 
     private void Awake()
     {
         _playerControls = new PlayerControls();
 
         //To be refactored
-        _targetPosition = _rightRoutePosition;
-        _whatIsGrappleable = _grappleableRight;
+        _targetRoutePosition = _rightRoutePosition;
         //To be refactored
     }
 
@@ -53,10 +46,8 @@ public class PlayerController : MonoBehaviour
     {
         if (_grapplingGun.IsAttached == false)
         {
-            // transform.position = new Vector3(_rightRoutePosition, transform.position.y, transform.position.z);
-            _targetPosition = _rightRoutePosition;
-            _whatIsGrappleable = _grappleableRight;
-            RouteChanged?.Invoke(_whatIsGrappleable);
+            _targetRoutePosition = _rightRoutePosition;
+            RouteChanged?.Invoke(Game.Routes.Right);
         }
     }
 
@@ -64,10 +55,8 @@ public class PlayerController : MonoBehaviour
     {
         if (_grapplingGun.IsAttached == false)
         {
-            // transform.position = new Vector3(_leftRoutePosition, transform.position.y, transform.position.z);
-            _targetPosition = _leftRoutePosition;
-            _whatIsGrappleable = _grappleableLeft;
-            RouteChanged?.Invoke(_whatIsGrappleable);
+            _targetRoutePosition = _leftRoutePosition;
+            RouteChanged?.Invoke(Game.Routes.Left);
         }
     }
 
@@ -83,17 +72,16 @@ public class PlayerController : MonoBehaviour
 
     private void Dash()
     {
-        if (_player.position.x != _targetPosition)
+        if (_player.position.x != _targetRoutePosition)
         {
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(_targetPosition, transform.position.y, transform.position.z), _dashSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(_targetRoutePosition, transform.position.y, transform.position.z), _dashSpeed * Time.deltaTime);
         }
     }
 
     private void Start()
     {
         //To be refactored
-
-        RouteChanged?.Invoke(_whatIsGrappleable);
+        RouteChanged?.Invoke(Game.Routes.Right);
         //To be refactored
 
     }
