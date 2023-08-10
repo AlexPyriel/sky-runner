@@ -313,7 +313,7 @@ MonoBehaviour:
   - {fileID: 3689170795388876019, guid: e08e9e9c1429f4a63b69d272182a4661, type: 3}
   - {fileID: 2434287633983275584, guid: 66debf409d5f74813b3bc14e6723211d, type: 3}
   _finishTile: {fileID: 664734924583254135, guid: 5b6fd2867932b4dd6a0f68121a8b8664, type: 3}
-  _amountToSpawn: 2
+  _amountToSpawn: 8
 --- !u!4 &812106226
 Transform:
   m_ObjectHideFlags: 0

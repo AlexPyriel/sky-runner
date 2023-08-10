@@ -15,7 +15,6 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private Rigidbody _rigidbody;
 
     private bool _isAttached;
-    private bool _attachPointDetected;
     private Vector3 _attachPoint;
 
     public bool IsAttached => _isAttached;
@@ -29,43 +28,12 @@ public class GrapplingGun : MonoBehaviour
 
     private SpringJoint joint;
 
-    private void OnEnable()
-    {
-        _sensor.AttachPointDetected += OnAttachPointDetected;
-        _sensor.AttachPointLost += OnAttachPointLost;
-    }
-
-    private void OnDisable()
-    {
-        _sensor.AttachPointDetected -= OnAttachPointDetected;
-        _sensor.AttachPointLost -= OnAttachPointLost;
-    }
-
-    // выяснить сколько раз срабатывают события в пистолете
-    private void OnAttachPointDetected()
-    {
-        if (_isAttached == false)
-        {
-            _attachPointDetected = true;
-        }
-    }
-
-    private void OnAttachPointLost()
-    {
-        if (_isAttached == false)
-        {
-            _attachPointDetected = false;
-        }
-    }
-
     public void StartSwing()
     {
-        if (_attachPointDetected)
+        if (_sensor.TryGetAttachPoint(out Vector3 attachPoint))
         {
             _isAttached = true;
-
-            _attachPoint = _sensor.CurrentAttachPoint;
-            Debug.Log($"Started attaching to {_attachPoint}");
+            _attachPoint = attachPoint;
 
             joint = _player.gameObject.AddComponent<SpringJoint>();
             joint.autoConfigureConnectedAnchor = false;
@@ -88,14 +56,18 @@ public class GrapplingGun : MonoBehaviour
     {
         if (_isAttached)
         {
-            // Debug.Log("Stopped");
             _isAttached = false;
             Destroy(joint);
 
-            _rigidbody.velocity = Vector3.Scale(_rigidbody.velocity, new Vector3(0, 1, 1));
-
-            if (_rigidbody.velocity.z + _horizontalThrustForce < _maxVelocity)
-                _rigidbody.AddForce(new Vector3(0, 0, _horizontalThrustForce), ForceMode.VelocityChange);
+            AddHorizontalVelocity();
         }
+    }
+
+    private void AddHorizontalVelocity()
+    {
+        _rigidbody.velocity = Vector3.Scale(_rigidbody.velocity, new Vector3(0, 1, 1));
+
+        if (_rigidbody.velocity.z + _horizontalThrustForce < _maxVelocity)
+            _rigidbody.AddForce(new Vector3(0, 0, _horizontalThrustForce), ForceMode.VelocityChange);
     }
 }
