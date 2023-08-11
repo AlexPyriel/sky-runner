@@ -65,8 +65,6 @@ public class GrapplingGun : MonoBehaviour
 
     private void AddHorizontalVelocity()
     {
-        _rigidbody.velocity = Vector3.Scale(_rigidbody.velocity, new Vector3(0, 1, 1));
-
         if (_rigidbody.velocity.z + _horizontalThrustForce < _maxVelocity)
             _rigidbody.AddForce(new Vector3(0, 0, _horizontalThrustForce), ForceMode.VelocityChange);
     }
