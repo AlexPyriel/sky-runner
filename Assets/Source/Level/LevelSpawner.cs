@@ -1,4 +1,6 @@
+using Unity.Profiling.Editor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class LevelSpawner : MonoBehaviour
 {
@@ -7,15 +9,11 @@ public class LevelSpawner : MonoBehaviour
     [SerializeField] private GameObject _finishTile;
     [SerializeField] private int _amountToSpawn;
 
-    private float _tileLength = 30f;
-    private Vector3 _newTileOffset;
     private Vector3 _newTilePosition;
 
     private void Start()
     {
         Random.InitState(System.DateTime.Now.Millisecond);
-
-        _newTileOffset = new Vector3(0, 0, _tileLength);
 
         for (int i = 0; i < _amountToSpawn; i++)
         {
@@ -23,12 +21,16 @@ public class LevelSpawner : MonoBehaviour
             SpawnTile(randomTile);
         }
 
-        SpawnTile(_finishTile);
+        // SpawnTile(_finishTile);
     }
 
     private void SpawnTile(GameObject tile)
     {
-        _newTilePosition += _newTileOffset;
-        Instantiate(tile, _newTilePosition, tile.transform.rotation, _container.transform);
+        GameObject spawned = Instantiate(tile, _newTilePosition, tile.transform.rotation, _container.transform);
+
+        if (spawned.TryGetComponent<Collider>(out Collider component))
+            _newTilePosition += new Vector3(0, 0, component.bounds.size.z);
+        else
+            throw new System.NullReferenceException("Tile prefab is missing Collider component");
     }
 }
