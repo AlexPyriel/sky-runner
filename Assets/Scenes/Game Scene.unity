@@ -463,11 +463,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &881513135 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2935180489400258437, guid: 9ae2e71538b514acf9a75d5190f73e31, type: 3}
-  m_PrefabInstance: {fileID: 2137802129}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,7 +568,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c19b0f326f828473380892b5034ed5cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player: {fileID: 881513135}
+  _player: {fileID: 1559929427}
+--- !u!4 &1559929427 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6550310432350372640, guid: 29c709b69f2fb49cd8f83b2e3b50fff5, type: 3}
+  m_PrefabInstance: {fileID: 3085902704299886882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2137802129
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -630,6 +630,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Female Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 5963835593767829674, guid: 9ae2e71538b514acf9a75d5190f73e31, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -646,6 +650,10 @@ PrefabInstance:
     - target: {fileID: 2350728816919792655, guid: 29c709b69f2fb49cd8f83b2e3b50fff5, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2350728816919792655, guid: 29c709b69f2fb49cd8f83b2e3b50fff5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6550310432350372640, guid: 29c709b69f2fb49cd8f83b2e3b50fff5, type: 3}
       propertyPath: m_RootOrder
@@ -748,6 +756,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5816161556285887808, guid: 107bf95f13da846a6814453653b69fa3, type: 3}
+      propertyPath: _levelSpawner
+      value: 
+      objectReference: {fileID: 812106225}
     - target: {fileID: 7791977195994687960, guid: 107bf95f13da846a6814453653b69fa3, type: 3}
       propertyPath: m_Name
       value: Tile Intersection

@@ -17,7 +17,7 @@ public class LevelSpawner : ObjectPool
         }
     }
 
-    private void SpawnTile()
+    public void SpawnTile()
     {
         if (TryGetRandomObject(out GameObject levelTIle))
         {
@@ -28,6 +28,13 @@ public class LevelSpawner : ObjectPool
                 _newTilePosition += new Vector3(0, 0, collider.bounds.size.z);
             else
                 throw new System.NullReferenceException("Tile prefab is missing Collider component");
+
+            PlayerDetector playerDetector = levelTIle.GetComponentInChildren<PlayerDetector>();
+
+            if (playerDetector != null)
+                playerDetector.Init(this);
+            else
+                throw new System.NullReferenceException($"Tile prefab is missing {typeof(PlayerDetector)} component");
         }
     }
 }
