@@ -51,9 +51,7 @@ public class PlayerController : MonoBehaviour
     private void DashMovement()
     {
         if (_player.position.x != _targetRoutePosition)
-        {
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(_targetRoutePosition, transform.position.y, transform.position.z), _dashSpeed * Time.deltaTime);
-        }
     }
 
     private void DashRight()

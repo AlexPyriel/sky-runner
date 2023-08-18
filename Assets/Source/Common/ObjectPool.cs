@@ -28,8 +28,8 @@ public class ObjectPool : MonoBehaviour
         {
             int randomIndex = Random.Range(0, prefabs.Length);
             GameObject spawned = Instantiate(prefabs[randomIndex], _container.transform);
-
             spawned.SetActive(false);
+
             _pool.Add(spawned);
         }
     }
@@ -45,6 +45,7 @@ public class ObjectPool : MonoBehaviour
     {
         List<GameObject> inActiveObjects = _pool.Where(obj => obj.activeSelf == false).ToList();
         result = inActiveObjects[Random.Range(0, inActiveObjects.Count)];
+
         return result != null;
     }
 }
