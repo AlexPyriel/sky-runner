@@ -26,7 +26,7 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float _damper = 7f;
     [SerializeField] private float _massScale = 4.5f;
 
-    private SpringJoint joint;
+    private SpringJoint _joint;
 
     public void StartSwing()
     {
@@ -35,20 +35,20 @@ public class GrapplingGun : MonoBehaviour
             _isAttached = true;
             _attachPoint = attachPoint;
 
-            joint = _player.gameObject.AddComponent<SpringJoint>();
-            joint.autoConfigureConnectedAnchor = false;
-            joint.connectedAnchor = _attachPoint;
+            _joint = _player.gameObject.AddComponent<SpringJoint>();
+            _joint.autoConfigureConnectedAnchor = false;
+            _joint.connectedAnchor = _attachPoint;
 
             float distanceFromPoint = Vector3.Distance(_player.position, _attachPoint);
 
             // the distance grapple will try to keep from grapple point.
-            joint.maxDistance = distanceFromPoint * 0.8f;
-            joint.minDistance = distanceFromPoint * 0.25f;
+            _joint.maxDistance = distanceFromPoint * 0.8f;
+            _joint.minDistance = distanceFromPoint * 0.25f;
 
             // customize values as you like
-            joint.spring = _spring;
-            joint.damper = _damper;
-            joint.massScale = _massScale;
+            _joint.spring = _spring;
+            _joint.damper = _damper;
+            _joint.massScale = _massScale;
         }
     }
 
@@ -57,7 +57,7 @@ public class GrapplingGun : MonoBehaviour
         if (_isAttached)
         {
             _isAttached = false;
-            Destroy(joint);
+            Destroy(_joint);
 
             AddHorizontalVelocity();
         }
