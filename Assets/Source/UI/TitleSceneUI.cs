@@ -1,16 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TitleSceneUI : MonoBehaviour
 {
-    private void Start()
+    // [SerializeField] private QuizSelector _quizSelector;
+    [SerializeField] private GameObject _titlePanel;
+    [SerializeField] private GameObject _lobbyPanel;
+
+    private void OnEnable()
     {
-        
+        // _quizSelector.Selected += HideGameModeDialog;
     }
 
-    private void Update()
+    private void OnDisable()
     {
-        
+        // _quizSelector.Selected -= HideGameModeDialog;
     }
+
+
+    public void ShowLobbyPanel()
+    {
+        Debug.Log("Test");
+        _lobbyPanel.SetActive(true);
+        _titlePanel.SetActive(false);
+    }
+
+    // private void HideGameModeDialog()
+    // {
+    //     _gameModePanel.SetActive(false);
+    // }
 }
