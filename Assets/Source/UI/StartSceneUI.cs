@@ -19,7 +19,6 @@ public class StartSceneUI : MonoBehaviour
 
     public void ShowLobbyPanel()
     {
-        Debug.Log("Test");
         _lobbyPanel.SetActive(true);
         _titlePanel.SetActive(false);
     }

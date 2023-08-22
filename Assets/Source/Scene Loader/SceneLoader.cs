@@ -69,9 +69,10 @@ public class SceneLoader : MonoBehaviour
     {
         _animator.SetTrigger(AnimatorSceneLoader.Params.Reveal);
         // _animator.SetBool("Reveal1", true);
-        Debug.Log($"Clip length {_animator.GetCurrentAnimatorClipInfo(0).Length}");
+        // Debug.Log($"Clip length {_animator.GetCurrentAnimatorClipInfo(0).Length}");
         // Invoke(nameof(LoadGameScene), _animator.GetCurrentAnimatorClipInfo(0).Length);
-        Invoke(nameof(LoadGameScene), 10f);
+        // Invoke(nameof(LoadGameScene), 3.4f);
+        Invoke(nameof(LoadGameScene), 1.7f);
     }
 
     private void LoadTitle()
