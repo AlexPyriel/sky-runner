@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameSceneUI : MonoBehaviour
 {
-    [SerializeField] private GameObject _gamePanel;
+    [SerializeField] private Game _game;
     [SerializeField] private GameState _gameState;
+    [SerializeField] private GameObject _startPanel;
     [SerializeField] private GameObject _pausePanel;
     [SerializeField] private GameObject _gameOverPanel;
 
@@ -13,14 +12,14 @@ public class GameSceneUI : MonoBehaviour
 
     private void OnEnable()
     {
-        _gameState.GameStarted += OnGameStarted;
+        _game.Started += OnGameStarted;
         _gameState.GamePaused += ShowPausePanel;
         _gameState.GameResumed += HidePausePanel;
     }
 
     private void OnDisable()
     {
-        _gameState.GameStarted -= OnGameStarted;
+        _game.Started -= OnGameStarted;
         _gameState.GamePaused -= ShowPausePanel;
         _gameState.GameResumed -= HidePausePanel;
     }
@@ -45,19 +44,18 @@ public class GameSceneUI : MonoBehaviour
         _pausePanel.SetActive(false);
     }
 
+    private void OnGameStarted()
+    {
+        _startPanel.SetActive(false);
+    }
+
     private void ShowGameOverPanel()
     {
         _gameOverPanel.SetActive(true);
     }
 
-    private void OnGameStarted()
-    {
-        _gamePanel.SetActive(false);
-    }
-
     private void OnGameOver()
     {
-        // _quizPanel.SetActive(false);
         Invoke(nameof(ShowGameOverPanel), _gameOverDelay);
     }
 }

@@ -11,9 +11,9 @@ public class Game : MonoBehaviour, ISceneLoadHandler<GameConfig>
     public enum Routes { Right, Left }
 
     [SerializeField] private Player _player;
-    [SerializeField] private GameState _gameState;
     private GameConfig _gameConfig;
 
+    public event Action Started;
     public event Action<int> ScoreChanged;
 
 
@@ -30,13 +30,11 @@ public class Game : MonoBehaviour, ISceneLoadHandler<GameConfig>
     private void OnEnable()
     {
         _player.Collected += OnCollected;
-        _gameState.GameStarted += OnGameStarted;
     }
 
     private void OnDisable()
     {
         _player.Collected -= OnCollected;
-        _gameState.GameStarted -= OnGameStarted;
     }
 
     public void OnSceneLoaded(GameConfig argument)
@@ -44,10 +42,10 @@ public class Game : MonoBehaviour, ISceneLoadHandler<GameConfig>
         _gameConfig = argument;
     }
 
-    public void OnGameStarted()
+    public void StartGame()
     {
         Time.timeScale = 1;
-
+        Started?.Invoke();
         // if (_currentRoutine != null)
         //     StopCoroutine(_currentRoutine);
 

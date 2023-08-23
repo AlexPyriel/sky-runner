@@ -4,8 +4,7 @@ using IJunior.TypedScenes;
 [RequireComponent(typeof(Animator), typeof(CanvasGroup))]
 public class SceneLoader : MonoBehaviour
 {
-    // [SerializeField] private QuizSelector _quizSelector;
-    [SerializeField] private GameState _gameState;
+    [SerializeField] private Game _game;
     [SerializeField] private GameConfig _gameConfig;
 
     private Animator _animator;
@@ -19,27 +18,19 @@ public class SceneLoader : MonoBehaviour
 
     private void OnEnable()
     {
-        // if (_quizSelector != null)
-        //     _quizSelector.Selected += LoadGame;
-
-        if (_gameState != null)
+        // prefab used on title scene where there's no _game component
+        if (_game != null)
         {
-            _gameState.GameStarted += OnGameStarted;
-            _gameState.LoadGame += LoadGame;
-            _gameState.LoadTitle += LoadTitle;
+            _game.Started += OnGameStarted;
         }
     }
 
     private void OnDisable()
     {
-        // if (_quizSelector != null)
-        //     _quizSelector.Selected -= LoadGame;
-
-        if (_gameState != null)
+        // prefab used on title scene where there's no _game component
+        if (_game != null)
         {
-            _gameState.GameStarted -= OnGameStarted;
-            _gameState.LoadGame -= LoadGame;
-            _gameState.LoadTitle -= LoadTitle;
+            _game.Started -= OnGameStarted;
         }
     }
 
@@ -47,16 +38,9 @@ public class SceneLoader : MonoBehaviour
     {
         _prefabCanvasGroup.alpha = 1;
 
-        if (_gameState == null)
-        {
+        if (_game == null)
             OnGameStarted();
-        }
     }
-
-    // public void QuitGame()
-    // {
-    //     Application.Quit();
-    // }
 
     private void OnGameStarted()
     {
@@ -65,30 +49,16 @@ public class SceneLoader : MonoBehaviour
         Time.timeScale = 1;
     }
 
-    public void LoadGame()
+    public void LoadGameScene()
     {
         _animator.SetTrigger(AnimatorSceneLoader.Params.Reveal);
-        // _animator.SetBool("Reveal1", true);
-        // Debug.Log($"Clip length {_animator.GetCurrentAnimatorClipInfo(0).Length}");
-        // Invoke(nameof(LoadGameScene), _animator.GetCurrentAnimatorClipInfo(0).Length);
-        // Invoke(nameof(LoadGameScene), 3.4f);
-        Invoke(nameof(LoadGameScene), 1.7f);
-    }
-
-    private void LoadTitle()
-    {
-        Time.timeScale = 1;
-        _animator.SetTrigger(AnimatorSceneLoader.Params.Reveal);
-        Invoke(nameof(LoadTitleScene), _animator.GetCurrentAnimatorClipInfo(0).Length);
-    }
-
-    private void LoadGameScene()
-    {
         Game_Scene.Load(_gameConfig);
     }
 
     private void LoadTitleScene()
     {
+        Time.timeScale = 1;
+        _animator.SetTrigger(AnimatorSceneLoader.Params.Reveal);
         Start_Scene.Load();
     }
 }

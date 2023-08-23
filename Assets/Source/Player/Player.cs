@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -8,17 +6,25 @@ public class Player : MonoBehaviour
     public event Action Collected;
     public event Action ObstacleCollided;
 
-    private void OnTriggerEnter(Collider other)
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     Debug.Log($"Colleded {other.name}");
+    //     if (other.TryGetComponent<Coin>(out Coin coin))
+    //     {
+    //         Collected?.Invoke();
+    //         Destroy(other.gameObject);
+    //         other.gameObject.SetActive(false);
+    //     }
+    //     else if (other.TryGetComponent<Powerup>(out Powerup powerup))
+    //     {
+    //         ObstacleCollided?.Invoke();
+    //         powerup.Destroy();
+    //     }
+    // }
+
+    private void OnCollisionEnter(Collision other)
     {
-        // if (other.TryGetComponent<Grass>(out Grass gras))
-        // {
-        //     Collected?.Invoke();
-        //     Destroy(other.gameObject);
-        // }
-        // else if (other.TryGetComponent<Obstacle>(out Obstacle obstacle))
-        // {
-        //     ObstacleCollided?.Invoke();
-        //     obstacle.Destroy();
-        // }
+        Debug.Log($"Colleded {other.gameObject.name}");
+        ObstacleCollided?.Invoke();
     }
 }

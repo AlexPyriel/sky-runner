@@ -781,8 +781,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 336022472}
-        m_TargetAssemblyTypeName: GameState, Assembly-CSharp
+      - m_Target: {fileID: 336022473}
+        m_TargetAssemblyTypeName: Game, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -1094,8 +1094,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28256b6047d1148c993a05af9f53a3d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gamePanel: {fileID: 692983264}
+  _game: {fileID: 336022473}
   _gameState: {fileID: 336022472}
+  _startPanel: {fileID: 692983264}
   _pausePanel: {fileID: 0}
   _gameOverPanel: {fileID: 0}
 --- !u!4 &1559929427 stripped
@@ -1272,6 +1273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameState: {fileID: 336022472}
+  _game: {fileID: 336022473}
   _gameConfig: {fileID: 11400000, guid: f561ccafff5ae440499e17f2e38a15f5, type: 2}
 --- !u!225 &1669317571
 CanvasGroup:
