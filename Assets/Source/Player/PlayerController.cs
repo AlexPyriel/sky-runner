@@ -9,8 +9,9 @@ public class PlayerController : MonoBehaviour
 
     private PlayerControls _playerControls;
     private float _targetRoutePosition;
-    private float _leftRoutePosition = -3f;
-    private float _rightRoutePosition = 3f;
+    private float _leftRoutePosition = -4f;
+    private float _middleRoutePosition = 0;
+    private float _rightRoutePosition = 4f;
     private float _dashSpeed = 40f;
 
     public event Action<Game.Routes> RouteChanged;
@@ -38,11 +39,6 @@ public class PlayerController : MonoBehaviour
         _playerControls.Disable();
     }
 
-    private void Start()
-    {
-        DashRight();
-    }
-
     private void Update()
     {
         DashMovement();
@@ -56,14 +52,30 @@ public class PlayerController : MonoBehaviour
 
     private void DashRight()
     {
-        _targetRoutePosition = _rightRoutePosition;
-        RouteChanged?.Invoke(Game.Routes.Right);
+        if (_player.transform.position.x < 0)
+        {
+            _targetRoutePosition = _middleRoutePosition;
+            RouteChanged?.Invoke(Game.Routes.Middle);
+        }
+        else
+        {
+            _targetRoutePosition = _rightRoutePosition;
+            RouteChanged?.Invoke(Game.Routes.Right);
+        }
     }
 
     private void DashLeft()
     {
-        _targetRoutePosition = _leftRoutePosition;
-        RouteChanged?.Invoke(Game.Routes.Left);
+        if (_player.transform.position.x > 0)
+        {
+            _targetRoutePosition = _middleRoutePosition;
+            RouteChanged?.Invoke(Game.Routes.Middle);
+        }
+        else
+        {
+            _targetRoutePosition = _leftRoutePosition;
+            RouteChanged?.Invoke(Game.Routes.Left);
+        }
     }
 
     private void TryDashRight(InputAction.CallbackContext context)

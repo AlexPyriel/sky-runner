@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class Game : MonoBehaviour, ISceneLoadHandler<GameConfig>
 {
-    public enum Routes { Right, Left }
+    public enum Routes { Left, Middle, Right }
 
     [SerializeField] private Player _player;
     private GameConfig _gameConfig;

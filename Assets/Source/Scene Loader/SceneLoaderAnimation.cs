@@ -19,7 +19,11 @@ public class SceneLoaderAnimation : MonoBehaviour
 
     protected void Hide()
     {
-        _prefabCanvasGroup.alpha = 1;
         _animator.SetTrigger(AnimatorSceneLoader.Params.Hide);
+    }
+
+    protected void MakeVisible()
+    {
+        _prefabCanvasGroup.alpha = 1;
     }
 }

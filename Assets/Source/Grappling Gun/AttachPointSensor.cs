@@ -6,6 +6,7 @@ public class AttachPointSensor : MonoBehaviour
 
     private Game.Routes _targetRoute;
     private Vector3 _leftPoint;
+    private Vector3 _middlePoint;
     private Vector3 _rightPoint;
 
     private void OnEnable()
@@ -18,6 +19,11 @@ public class AttachPointSensor : MonoBehaviour
         _playerController.RouteChanged -= OnRouteChanged;
     }
 
+    private void Start()
+    {
+        _targetRoute = Game.Routes.Middle;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<AttachPoint>(out AttachPoint point))
@@ -26,6 +32,8 @@ public class AttachPointSensor : MonoBehaviour
 
             if (point.Route == Game.Routes.Left)
                 _leftPoint = point.transform.position;
+            else if (point.Route == Game.Routes.Middle)
+                _middlePoint = point.transform.position;
             else if (point.Route == Game.Routes.Right)
                 _rightPoint = point.transform.position;
         }
@@ -39,6 +47,8 @@ public class AttachPointSensor : MonoBehaviour
 
             if (point.Route == Game.Routes.Left)
                 _leftPoint = Vector3.zero;
+            else if (point.Route == Game.Routes.Middle)
+                _middlePoint = Vector3.zero;
             else if (point.Route == Game.Routes.Right)
                 _rightPoint = Vector3.zero;
         }
@@ -51,7 +61,13 @@ public class AttachPointSensor : MonoBehaviour
 
     public bool TryGetAttachPoint(out Vector3 attachPoint)
     {
-        attachPoint = _targetRoute == Game.Routes.Right ? _rightPoint : _leftPoint;
+        attachPoint = _targetRoute switch
+        {
+            Game.Routes.Left => _leftPoint,
+            Game.Routes.Middle => _middlePoint,
+            Game.Routes.Right => _rightPoint,
+            _ => Vector3.zero,
+        };
 
         return attachPoint != Vector3.zero;
     }
