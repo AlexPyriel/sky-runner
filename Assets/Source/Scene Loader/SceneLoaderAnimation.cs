@@ -1,10 +1,15 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Animator), typeof(CanvasGroup))]
 public class SceneLoaderAnimation : MonoBehaviour
 {
     private Animator _animator;
     private CanvasGroup _prefabCanvasGroup;
+    private readonly float _animationDelay = 0.4f;
+
+    public float AnimationDelay => _animationDelay;
 
     private void Awake()
     {

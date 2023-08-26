@@ -14,7 +14,7 @@ public class GameSceneLoaderAnimation : SceneLoaderAnimation
         _game.Started -= Hide;
     }
 
-    private void Start()
+    protected void Start()
     {
         MakeVisible();
     }

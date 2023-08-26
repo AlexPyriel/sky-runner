@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class StartSceneLoaderAnimation : SceneLoaderAnimation
 {
-    private void Start()
+    protected void Start()
     {
         MakeVisible();
         Hide();

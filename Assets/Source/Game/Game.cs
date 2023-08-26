@@ -1,17 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using IJunior.TypedScenes;
 using Unity.VisualScripting;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
-public class Game : MonoBehaviour, ISceneLoadHandler<GameConfig>
+public class Game : MonoBehaviour
 {
     public enum Routes { Left, Middle, Right }
 
+    [SerializeField] private GameConfig _gameConfig;
     [SerializeField] private Player _player;
-    private GameConfig _gameConfig;
+    [SerializeField] private SceneLoader _sceneLoader;
 
     public event Action Started;
     public event Action<int> ScoreChanged;
@@ -30,17 +30,16 @@ public class Game : MonoBehaviour, ISceneLoadHandler<GameConfig>
     private void OnEnable()
     {
         _player.Collected += OnCollected;
+        _player.ObstacleCollided += OnObstacleCollided;
     }
 
     private void OnDisable()
     {
         _player.Collected -= OnCollected;
+        _player.ObstacleCollided -= OnObstacleCollided;
     }
 
-    public void OnSceneLoaded(GameConfig argument)
-    {
-        _gameConfig = argument;
-    }
+
 
     public void StartGame()
     {
@@ -53,6 +52,11 @@ public class Game : MonoBehaviour, ISceneLoadHandler<GameConfig>
         //     StartCoroutine(SpawnHint());
         // else
         //     StartSpawnRoutine();
+    }
+
+    private void OnObstacleCollided()
+    {
+        _sceneLoader.LoadStartcene();
     }
 
     private void OnCollected()
