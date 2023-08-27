@@ -13,21 +13,23 @@ public class SceneLoader : MonoBehaviour
     {
         _sceneLoaderAnimation.Reveal();
         Invoke(nameof(LoadGame), _sceneLoaderAnimation.AnimationDelay);
+        // SceneManager.LoadSceneAsync(GameScene, LoadSceneMode.Single);
     }
 
     public void LoadStartcene()
     {
         _sceneLoaderAnimation.Reveal();
         Invoke(nameof(LoadStart), _sceneLoaderAnimation.AnimationDelay);
+        // SceneManager.LoadSceneAsync(GameScene, LoadSceneMode.Single);
     }
 
     private void LoadGame()
     {
-        SceneManager.LoadScene(GameScene, LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync(GameScene, LoadSceneMode.Single);
 
     }
     private void LoadStart()
     {
-        SceneManager.LoadScene(StartScene, LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync(StartScene, LoadSceneMode.Single);
     }
 }

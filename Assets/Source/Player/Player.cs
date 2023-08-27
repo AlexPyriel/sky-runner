@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private bool _collided;
+
     public event Action Collected;
     public event Action ObstacleCollided;
 
@@ -24,7 +26,16 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Debug.Log($"Colleded {other.gameObject.name}");
-        ObstacleCollided?.Invoke();
+        if (_collided == false)
+        {
+            _collided = true;
+            Debug.Log($"Colleded {other.gameObject.name}");
+            ObstacleCollided?.Invoke();
+        }
+    }
+
+    private void Init()
+    {
+        _collided = false;
     }
 }
