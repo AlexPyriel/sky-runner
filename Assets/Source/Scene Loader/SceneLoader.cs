@@ -1,6 +1,5 @@
 using UnityEngine;
 using IJunior.TypedScenes;
-using System;
 
 public class SceneLoader : MonoBehaviour
 {
