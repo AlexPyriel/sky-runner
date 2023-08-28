@@ -9,7 +9,8 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private SceneLoaderAnimation _sceneLoaderAnimation;
     [SerializeField] private GameData _gameData;
 
-    private event Action LoadScene;
+    private delegate void LoadScene();
+    private LoadScene _loadScene;
 
     public enum Scenes { GameScene, LobbyScene }
 
@@ -21,20 +22,21 @@ public class SceneLoader : MonoBehaviour
     private void OnDisable()
     {
         _gameDataContainer.TransferDataToScene -= TryLoadScene;
+        _loadScene = null;
     }
 
     private void TryLoadScene(GameData gameData, Scenes scene)
     {
         _gameData = gameData;
 
-        LoadScene = scene switch
+        _loadScene = scene switch
         {
             Scenes.GameScene => LoadGameScene,
             Scenes.LobbyScene => LoadStartcene,
             _ => null,
         };
 
-        LoadScene?.Invoke();
+        _loadScene?.Invoke();
     }
 
     private void LoadGameScene()
