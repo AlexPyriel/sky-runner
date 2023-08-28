@@ -1,35 +1,61 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using IJunior.TypedScenes;
+using System;
 
 public class SceneLoader : MonoBehaviour
 {
+
+    [SerializeField] private GameDataContainer _gameDataContainer;
     [SerializeField] private SceneLoaderAnimation _sceneLoaderAnimation;
-    [SerializeField] private GameConfig _gameConfig;
+    [SerializeField] private GameData _gameData;
 
-    private const string StartScene = nameof(StartScene);
-    private const string GameScene = nameof(GameScene);
+    private event Action LoadScene;
 
-    public void LoadGameScene()
+    public enum Scenes { GameScene, LobbyScene }
+
+    private void OnEnable()
+    {
+        _gameDataContainer.TransferDataToScene += TryLoadScene;
+    }
+
+    private void OnDisable()
+    {
+        _gameDataContainer.TransferDataToScene -= TryLoadScene;
+    }
+
+    private void TryLoadScene(GameData gameData, Scenes scene)
+    {
+        _gameData = gameData;
+
+        LoadScene = scene switch
+        {
+            Scenes.GameScene => LoadGameScene,
+            Scenes.LobbyScene => LoadStartcene,
+            _ => null,
+        };
+
+        LoadScene?.Invoke();
+    }
+
+    private void LoadGameScene()
     {
         _sceneLoaderAnimation.Reveal();
         Invoke(nameof(LoadGame), _sceneLoaderAnimation.AnimationDelay);
-        // SceneManager.LoadSceneAsync(GameScene, LoadSceneMode.Single);
     }
 
-    public void LoadStartcene()
+    private void LoadStartcene()
     {
         _sceneLoaderAnimation.Reveal();
         Invoke(nameof(LoadStart), _sceneLoaderAnimation.AnimationDelay);
-        // SceneManager.LoadSceneAsync(GameScene, LoadSceneMode.Single);
     }
 
     private void LoadGame()
     {
-        SceneManager.LoadSceneAsync(GameScene, LoadSceneMode.Single);
-
+        Game_Scene.LoadAsync(_gameData);
     }
+
     private void LoadStart()
     {
-        SceneManager.LoadSceneAsync(StartScene, LoadSceneMode.Single);
+        Start_Scene.LoadAsync(_gameData);
     }
 }
