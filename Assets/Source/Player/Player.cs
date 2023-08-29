@@ -11,12 +11,11 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"Spot trigger {other.name}");
-        // if (other.TryGetComponent<Coin>(out Coin coin))
-        // {
-        //     Collected?.Invoke();
-        //     Destroy(other.gameObject);
-        //     other.gameObject.SetActive(false);
-        // }
+        if (other.TryGetComponent<Coin>(out Coin coin))
+        {
+            Collected?.Invoke();
+            other.gameObject.SetActive(false);
+        }
         // else if (other.TryGetComponent<Powerup>(out Powerup powerup))
         // {
         //     ObstacleCollided?.Invoke();
@@ -34,8 +33,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void Init()
-    {
-        _collided = false;
-    }
+    // private void Init()
+    // {
+    //     _collided = false;
+    // }
 }
