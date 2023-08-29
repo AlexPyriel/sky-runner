@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerDetector : MonoBehaviour
+public class SpawnController : MonoBehaviour
 {
     [SerializeField] private GameObject _levelTile;
     private LevelSpawner _levelSpawner;

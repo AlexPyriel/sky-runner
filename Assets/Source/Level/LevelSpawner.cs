@@ -29,12 +29,12 @@ public class LevelSpawner : ObjectPool
             else
                 throw new System.NullReferenceException("Tile prefab is missing Collider component");
 
-            PlayerDetector playerDetector = levelTIle.GetComponentInChildren<PlayerDetector>();
+            SpawnController spawnController = levelTIle.GetComponentInChildren<SpawnController>();
 
-            if (playerDetector != null)
-                playerDetector.Init(this);
+            if (spawnController != null)
+                spawnController.Init(this);
             else
-                throw new System.NullReferenceException($"Tile prefab is missing {typeof(PlayerDetector)} component");
+                throw new System.NullReferenceException($"Tile prefab is missing {typeof(SpawnController)} component");
         }
     }
 }

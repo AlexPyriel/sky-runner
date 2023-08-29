@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1168463379036352912}
   - component: {fileID: 5816161556285887808}
   m_Layer: 0
-  m_Name: Player Detector
+  m_Name: Spawn Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,8 +52,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 30, y: 30, z: 40}
-  m_Center: {x: 0, y: 15, z: 5}
+  m_Size: {x: 30, y: 30, z: 50}
+  m_Center: {x: 0, y: 15, z: 10}
 --- !u!114 &5816161556285887808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2109,7 +2109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2962024362164336911
 Transform:
   m_ObjectHideFlags: 0
