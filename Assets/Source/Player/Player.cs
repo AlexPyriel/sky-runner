@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
         if (other.TryGetComponent<Coin>(out Coin coin))
         {
             Collected?.Invoke();
-            other.gameObject.SetActive(false);
         }
         // else if (other.TryGetComponent<Powerup>(out Powerup powerup))
         // {

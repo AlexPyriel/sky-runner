@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CoinSpawner : ObjectPool
 {
+    [SerializeField] private Transform _player;
     [SerializeField] private GameObject _prefab;
     [SerializeField] private int _amountToSpawn;
 
@@ -21,11 +22,6 @@ public class CoinSpawner : ObjectPool
         }
     }
 
-    private void Update()
-    {
-
-    }
-
     private void Spawn()
     {
         if (TryGetObject(out GameObject coinObject))
@@ -33,6 +29,9 @@ public class CoinSpawner : ObjectPool
             coinObject.SetActive(true);
             coinObject.transform.position = _newCoinPosition;
             _newCoinPosition += new Vector3(0, 0, 5);
+
+            if (coinObject.TryGetComponent<Coin>(out Coin coin))
+                coin.Init(_player);
         }
     }
 }
