@@ -21,7 +21,7 @@ public class Lobby : GameDataContainer, ISceneLoadHandler<GameData>
     private void Start()
     {
         if (_gameData == null)
-            _gameData = new GameData(false);
+            _gameData = ScriptableObject.CreateInstance<GameData>();
     }
 
     private void Update()
