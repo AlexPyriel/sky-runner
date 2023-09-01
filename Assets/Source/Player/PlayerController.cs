@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float _leftRoutePosition = -4f;
     private float _middleRoutePosition = 0;
     private float _rightRoutePosition = 4f;
+    private float _stopSwingHeight = 16f;
     private float _dashSpeed = 40f;
 
     public event Action<Game.Routes> RouteChanged;
@@ -26,22 +28,25 @@ public class PlayerController : MonoBehaviour
         _playerControls.Enable();
         _playerControls.Player.DashRight.performed += TryDashRight;
         _playerControls.Player.DashLeft.performed += TryDasheLeft;
-        _playerControls.Player.Swing.started += TrySwing;
-        _playerControls.Player.Swing.canceled += StopSwing;
+        _playerControls.Player.Swing.performed += TrySwing;
     }
 
     private void OnDisable()
     {
         _playerControls.Player.DashRight.performed -= TryDashRight;
         _playerControls.Player.DashLeft.performed -= TryDasheLeft;
-        _playerControls.Player.Swing.started -= TrySwing;
-        _playerControls.Player.Swing.canceled -= StopSwing;
+        _playerControls.Player.Swing.performed -= TrySwing;
         _playerControls.Disable();
     }
 
     private void Update()
     {
         DashMovement();
+    }
+
+    private void LateUpdate()
+    {
+        TryStopSwing();
     }
 
     private void DashMovement()
@@ -92,11 +97,17 @@ public class PlayerController : MonoBehaviour
 
     private void TrySwing(InputAction.CallbackContext context)
     {
-        _grapplingGun.StartSwing();
+        if (_grapplingGun.IsAttached == true) return;
+
+        if (Mathf.Round(_player.position.y) < _stopSwingHeight)
+            _grapplingGun.StartSwing();
     }
 
-    private void StopSwing(InputAction.CallbackContext context)
+    private void TryStopSwing()
     {
-        _grapplingGun.StopSwing();
+        if (_grapplingGun.IsAttached == false) return;
+
+        if (Mathf.Round(_player.position.y) == _stopSwingHeight)
+            _grapplingGun.StopSwing();
     }
 }

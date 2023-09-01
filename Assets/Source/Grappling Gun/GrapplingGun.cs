@@ -9,9 +9,10 @@ public class GrapplingGun : MonoBehaviour
 
     public Transform GunTip => _gunTip;
 
+
     [Header("Add Force on stop swing")]
-    [SerializeField] private float _horizontalThrustForce;
-    [SerializeField] private float _maxVelocity;
+    [SerializeField] private float _horizontalThrustForce = 5f;
+    [SerializeField] private float _verticallThrustForce = 6f;
     [SerializeField] private Rigidbody _rigidbody;
 
     private bool _isAttached;
@@ -42,7 +43,8 @@ public class GrapplingGun : MonoBehaviour
             float distanceFromPoint = Vector3.Distance(_player.position, _attachPoint);
 
             // the distance grapple will try to keep from grapple point.
-            _joint.maxDistance = distanceFromPoint * 0.8f;
+            // _joint.maxDistance = distanceFromPoint * 0.8f;
+            _joint.maxDistance = distanceFromPoint * 0.5f;
             _joint.minDistance = distanceFromPoint * 0.25f;
 
             // customize values as you like
@@ -65,7 +67,7 @@ public class GrapplingGun : MonoBehaviour
 
     private void AddHorizontalVelocity()
     {
-        if (_rigidbody.velocity.z + _horizontalThrustForce < _maxVelocity)
-            _rigidbody.AddForce(new Vector3(0, 0, _horizontalThrustForce), ForceMode.VelocityChange);
+        _rigidbody.velocity = Vector3.Scale(_rigidbody.velocity, new Vector3(0, 0, 1));
+        _rigidbody.AddForce(new Vector3(0, _verticallThrustForce, _horizontalThrustForce), ForceMode.VelocityChange);
     }
 }
