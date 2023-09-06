@@ -1,12 +1,18 @@
 using System;
 using Unity.VisualScripting;
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Transform _player;
+    [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private GrapplingGun _grapplingGun;
+
+    [Header("Add Force on stop swing")]
+    [SerializeField, Range(1, 6)] private float _horizontalThrustForce = 5f;
+    [SerializeField, Range(1, 6)] private float _verticallThrustForce = 6f;
 
     private PlayerControls _playerControls;
     private float _targetRoutePosition;
@@ -15,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private float _rightRoutePosition = 4f;
     private float _stopSwingHeight = 16f;
     private float _dashSpeed = 40f;
+
+
 
     public event Action<Game.Routes> RouteChanged;
 
@@ -108,6 +116,16 @@ public class PlayerController : MonoBehaviour
         if (_grapplingGun.IsAttached == false) return;
 
         if (Mathf.Round(_player.position.y) == _stopSwingHeight)
+        {
             _grapplingGun.StopSwing();
+            AddHorizontalVelocity();
+        }
+
+    }
+
+    private void AddHorizontalVelocity()
+    {
+        _rigidbody.velocity = Vector3.Scale(_rigidbody.velocity, new Vector3(0, 0, 1));
+        _rigidbody.AddForce(new Vector3(0, _verticallThrustForce, _horizontalThrustForce), ForceMode.VelocityChange);
     }
 }

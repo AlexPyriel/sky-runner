@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game_Scene.unity
     guid: 519c565e5a8724dec8480c296a9330ef
+  - enabled: 1
+    path: Assets/polyperfect/Low Poly Animated People/People.unity
+    guid: a9ee72a149e32451aa24174e31d934fd
   m_configObjects: {}

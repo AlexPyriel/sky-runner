@@ -7,17 +7,10 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private Transform _player;
     [SerializeField] private AttachPointSensor _sensor;
 
-    public Transform GunTip => _gunTip;
-
-
-    [Header("Add Force on stop swing")]
-    [SerializeField] private float _horizontalThrustForce = 5f;
-    [SerializeField] private float _verticallThrustForce = 6f;
-    [SerializeField] private Rigidbody _rigidbody;
-
     private bool _isAttached;
     private Vector3 _attachPoint;
 
+    public Transform GunTip => _gunTip;
     public bool IsAttached => _isAttached;
     public Vector3 AttachPoint => _attachPoint;
 
@@ -60,14 +53,6 @@ public class GrapplingGun : MonoBehaviour
         {
             _isAttached = false;
             Destroy(_joint);
-
-            AddHorizontalVelocity();
         }
-    }
-
-    private void AddHorizontalVelocity()
-    {
-        _rigidbody.velocity = Vector3.Scale(_rigidbody.velocity, new Vector3(0, 0, 1));
-        _rigidbody.AddForce(new Vector3(0, _verticallThrustForce, _horizontalThrustForce), ForceMode.VelocityChange);
     }
 }
